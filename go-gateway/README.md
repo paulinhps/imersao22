@@ -19,9 +19,13 @@ O Gateway de Pagamento é um sistema distribuído composto por:
 Até o momento, implementamos:
 - Setup e estrutura base do projeto
 - Endpoints de gerenciamento de accounts (criação e consulta)
+- Sistema completo de faturas (invoices) com:
+  - Criação e processamento automático de pagamentos
+  - Validação de limites (faturas > R$ 10.000 ficam pendentes)
+  - Consulta individual e listagem de faturas
+  - Atualização automática de saldo da conta
 
 Funcionalidades pendentes:
-- Implementação do sistema de faturas (invoices)
 - Integração com Apache Kafka para:
   - Envio de transações para o microsserviço de antifraude
   - Consumo de respostas do serviço de antifraude
@@ -88,6 +92,39 @@ GET /accounts
 X-API-Key: {api_key}
 ```
 Retorna os dados da conta associada ao API Key.
+
+### Criar Fatura
+```http
+POST /invoice
+Content-Type: application/json
+X-API-Key: {api_key}
+
+{
+    "amount": 100.50,
+    "description": "Compra de produto",
+    "payment_type": "credit_card",
+    "card_number": "4111111111111111",
+    "cvv": "123",
+    "expiry_month": 12,
+    "expiry_year": 2025,
+    "cardholder_name": "John Doe"
+}
+```
+Cria uma nova fatura e processa o pagamento. Faturas acima de R$ 10.000 ficam pendentes para análise manual.
+
+### Consultar Fatura
+```http
+GET /invoice/{id}
+X-API-Key: {api_key}
+```
+Retorna os dados de uma fatura específica.
+
+### Listar Faturas
+```http
+GET /invoice
+X-API-Key: {api_key}
+```
+Lista todas as faturas da conta.
 
 ## Testando a API
 
