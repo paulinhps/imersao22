@@ -3,10 +3,10 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Header } from "../../components/header"
-import { StatusBadge } from "../../components/status-badge"
-import { Pagination } from "../../components/pagination"
-import { DatePicker } from "../../components/date-picker"
-import { Eye, Download, Plus } from "lucide-react"
+import { Download, Eye, Plus } from "lucide-react"
+import { DatePicker } from "@/components/date-picker"
+import { StatusBadge } from "@/components/status-badge"
+import { Pagination } from "@/components/pagination"
 
 const invoices = [
   {
@@ -40,19 +40,19 @@ export default function FaturasPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header showUserInfo={true} />
 
       <main className="flex-1 p-6">
         <div className="container mx-auto">
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-card rounded-lg p-6">
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h1 className="text-2xl font-bold">Faturas</h1>
-                <p className="text-gray-400">Gerencie suas faturas e acompanhe os pagamentos</p>
+                <p className="text-muted-foreground">Gerencie suas faturas e acompanhe os pagamentos</p>
               </div>
               <Link
                 href="/faturas/nova"
-                className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-colors"
+                className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md transition-colors"
               >
                 <Plus size={16} />
                 Nova Fatura
